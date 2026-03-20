@@ -1,5 +1,7 @@
 from mySummarizer.constants import *
-from mySummarizer.entity import DataIngestionConfig, DataValidationConfig
+from mySummarizer.entity import (DataIngestionConfig,
+                                DataValidationConfig,
+                                DataTransformationConfig)
 from mySummarizer.utils.common import read_yaml, create_directories
 
 class ConfiguartionManager:
@@ -37,3 +39,16 @@ class ConfiguartionManager:
             ALL_REQUIRED_FILES=config.ALL_REQUIRED_FILES
         )
         return data_validation_config
+
+
+
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        config = self.config.data_transformation
+
+        create_directories([config.root_dir])
+
+        return DataTransformationConfig(
+            root_dir=Path(config.root_dir),
+            data_path=Path(config.data_path),
+            tokenizer_name=str(config.tokenizer_name),
+        )
